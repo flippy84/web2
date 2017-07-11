@@ -8,13 +8,13 @@ namespace Server.Models
     {
         public DatabaseModel() : base(@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=|DataDirectory|\Database.mdf;Integrated Security=True") { }
 
-        public Table<Assignments> Assignments;
-        public Table<Tasks> Tasks;
-        public Table<Users> Users;
+        public Table<Assignment> Assignments;
+        public Table<Task> Tasks;
+        public Table<User> Users;
     }
 
-    [Table]
-    public class Assignments
+    [Table(Name = "Assignments")]
+    public class Assignment
     {
         [Column(IsPrimaryKey = true)]
         public int TaskID;
@@ -22,8 +22,8 @@ namespace Server.Models
         public int UserID;
     }
 
-    [Table]
-    public class Tasks
+    [Table(Name = "Tasks")]
+    public class Task
     {
         [Column(IsPrimaryKey = true, IsDbGenerated = true)]
         public int TaskID;
@@ -37,8 +37,8 @@ namespace Server.Models
         public string Requirements;
     }
 
-    [Table]
-    public class Users
+    [Table(Name = "Users")]
+    public class User
     {
         [Column(IsPrimaryKey = true, IsDbGenerated = true)]
         public int UserID;
