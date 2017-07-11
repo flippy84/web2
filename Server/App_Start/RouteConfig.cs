@@ -15,8 +15,8 @@ namespace Server
 
             routes.MapRoute(
                 name: "Default",
-                url: "{controller}/{action}/{id}",
-                defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional }
+                url: "{controller}/{action}/{taskID}/{userID}",
+                defaults: new { controller = "Home", action = "Index", taskID = UrlParameter.Optional, userID = UrlParameter.Optional }
             );
         }
     }
