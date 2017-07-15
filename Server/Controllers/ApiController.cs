@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Net;
 
 namespace Server.Controllers
 {
@@ -97,6 +98,7 @@ namespace Server.Controllers
 
         private JsonResult JsonError(string error)
         {
+            Response.StatusCode = (int)HttpStatusCode.BadRequest;
             return new JsonResult {
                 Data = new { Error = error },
                 JsonRequestBehavior = JsonRequestBehavior.AllowGet
