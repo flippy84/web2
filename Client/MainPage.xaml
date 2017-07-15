@@ -8,8 +8,8 @@
     mc:Ignorable="d">
     <Grid>
         <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
-            <Grid Width="800" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-                <Button Content="Button" HorizontalAlignment="Left" Margin="245,366,0,0" VerticalAlignment="Top" Height="86" Width="337"/>
+            <Grid x:Name="Content" Width="800" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+                <Button Content="Button" HorizontalAlignment="Left" Margin="88,314,0,0" VerticalAlignment="Top" Height="140" Width="530" Holding="Button_Holding"/>
             </Grid>
         </ScrollViewer>
     </Grid>
