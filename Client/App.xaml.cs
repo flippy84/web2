@@ -14,6 +14,7 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using Windows.UI.Core;
 
 namespace Client
 {
@@ -32,6 +33,20 @@ namespace Client
             this.Suspending += OnSuspending;
         }
 
+        private void App_BackRequested(object sender, BackRequestedEventArgs e)
+        {
+            Frame rootFrame = Window.Current.Content as Frame;
+
+            if (rootFrame == null)
+                return;
+
+            if(rootFrame.CanGoBack && e.Handled == false)
+            {
+                e.Handled = true;
+                rootFrame.GoBack();
+            }
+        }
+
         /// <summary>
         /// Invoked when the application is launched normally by the end user.  Other entry points
         /// will be used such as when the application is launched to open a specific file.
@@ -40,6 +55,8 @@ namespace Client
         protected override void OnLaunched(LaunchActivatedEventArgs e)
         {
             Frame rootFrame = Window.Current.Content as Frame;
+
+            SystemNavigationManager.GetForCurrentView().BackRequested += App_BackRequested;
 
             // Do not repeat app initialization when the Window already has content,
             // just ensure that the window is active
@@ -66,7 +83,7 @@ namespace Client
                     // When the navigation stack isn't restored navigate to the first page,
                     // configuring the new page by passing required information as a navigation
                     // parameter
-                    rootFrame.Navigate(typeof(MainPage), e.Arguments);
+                    rootFrame.Navigate(typeof(LoginPage), e.Arguments);
                 }
                 // Ensure the current window is active
                 Window.Current.Activate();
