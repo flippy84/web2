@@ -31,7 +31,8 @@ namespace Client
         {
             if(e.Parameter is int)
             {
-                var task = new ClientAPI("172.16.80.2").GetTask((int)e.Parameter);
+                var api = new ClientAPI("172.16.80.2");
+                var task = api.GetTask((int)e.Parameter);
 
                 Title.Text = task.Title;
                 Requirements.Text = task.Requirements;
@@ -41,7 +42,8 @@ namespace Client
                 Assignments.Text = "";
                 foreach(var assignment in task.assignments)
                 {
-                    Assignments.Text += assignment.UserID.ToString() + "\n";
+                    var user = api.GetUser(assignment.UserID);
+                    Assignments.Text += user + "\n";
                 }
             }
             base.OnNavigatedTo(e);

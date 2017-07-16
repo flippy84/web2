@@ -82,7 +82,7 @@ namespace Client
         {
             User user;
 
-            string response = Request(string.Format("{0}/api/user/{1}", HttpHost, userID));
+            string response = Request(string.Format("{0}/api/user/1/{1}", HttpHost, userID));
             try
             {
                 user = JsonConvert.DeserializeObject<User>(response);
@@ -92,7 +92,7 @@ namespace Client
                 return null;
             }
 
-            return null;
+            return user;
         }
 
         public List<User> GetUsers()
