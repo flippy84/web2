@@ -78,6 +78,40 @@ namespace Client
             return task;
         }
 
+        public User GetUser(int userID)
+        {
+            User user;
+
+            string response = Request(string.Format("{0}/api/user/{1}", HttpHost, userID));
+            try
+            {
+                user = JsonConvert.DeserializeObject<User>(response);
+            }
+            catch
+            {
+                return null;
+            }
+
+            return null;
+        }
+
+        public List<User> GetUsers()
+        {
+            string response = Request(string.Format("{0}/api/user", HttpHost));
+            List<User> users = new List<User>();
+
+            try
+            {
+                users = JsonConvert.DeserializeObject<List<User>>(response);
+            }
+            catch
+            {
+                return new List<User>();
+            }
+
+            return users;
+        }
+
         private string Request(string uri)
         {
             return Request(uri, HttpMethod.Get);
@@ -116,5 +150,10 @@ namespace Client
         public int UserID;
         public string Firstname;
         public string Lastname;
+
+        public override string ToString()
+        {
+            return Firstname + " " + Lastname;
+        }
     }
 }
