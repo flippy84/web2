@@ -26,7 +26,17 @@ namespace Client
         {
             this.InitializeComponent();
 
+            var users = new ClientAPI("172.16.80.2").GetUsers();
+            foreach(var user in users)
+            {
+                UserComboBox.Items.Add(user);
+            }
+        }
 
+        private void Button_Tapped(object sender, TappedRoutedEventArgs e)
+        {
+            var user = (User)UserComboBox.SelectedItem;
+            this.Frame.Navigate(typeof(MainPage), user);
         }
     }
 }
