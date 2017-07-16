@@ -9,9 +9,9 @@
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <TextBlock HorizontalAlignment="Left" Margin="40,40,0,0" TextWrapping="Wrap" Text="Title" VerticalAlignment="Top" RenderTransformOrigin="1.477,1.072"/>
-        <TextBlock HorizontalAlignment="Left" Margin="40,100,0,0" TextWrapping="Wrap" Text="Requirements" VerticalAlignment="Top"/>
+        <TextBlock HorizontalAlignment="Left" Margin="40,65,0,0" TextWrapping="Wrap" Text="Requirements" VerticalAlignment="Top"/>
         <TextBlock x:Name="Title" HorizontalAlignment="Left" Margin="147,40,0,0" TextWrapping="Wrap" Text="TextBlock" VerticalAlignment="Top" Height="55" Width="203"/>
-        <TextBlock x:Name="Requirements" HorizontalAlignment="Left" Margin="147,100,0,0" TextWrapping="Wrap" Text="TextBlock" VerticalAlignment="Top" Height="110" Width="203"/>
+        <TextBlock x:Name="Requirements" HorizontalAlignment="Left" Margin="147,65,0,0" TextWrapping="Wrap" Text="TextBlock" VerticalAlignment="Top" Height="145" Width="203"/>
         <TextBlock x:Name="Assignments" HorizontalAlignment="Left" Margin="147,215,0,0" TextWrapping="Wrap" Text="TextBlock" VerticalAlignment="Top" Height="110" Width="203"/>
         <TextBlock HorizontalAlignment="Left" Margin="40,215,0,0" TextWrapping="Wrap" Text="Assignments" VerticalAlignment="Top"/>
         <TextBlock x:Name="Begin" HorizontalAlignment="Left" Margin="147,330,0,0" TextWrapping="Wrap" Text="TextBlock" VerticalAlignment="Top" Height="30" Width="203"/>
