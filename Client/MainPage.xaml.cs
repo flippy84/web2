@@ -18,89 +18,58 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 
-// The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
-
 namespace Client
 {
-    /// <summary>
-    /// An empty page that can be used on its own or navigated to within a Frame.
-    /// </summary>
     public sealed partial class MainPage : Page
     {
-        HttpClient client;
+        ClientAPI api = new ClientAPI("172.16.80.2");
 
         public MainPage()
         {
             this.InitializeComponent();
-            client = new HttpClient();
+        }
 
-            string response = Request("http://172.16.80.2/api/task");
-            List<Task> tasks;
+        private void Page_Loaded(object sender, RoutedEventArgs e)
+        {
+            /*var hej = VisualTreeHelper.GetChildrenCount((DependencyObject)FindName("MainContent"));
 
-            try
+            for (int i = 0; i < VisualTreeHelper.GetChildrenCount((DependencyObject)FindName("MainContent")); i++)
             {
-                tasks = JsonConvert.DeserializeObject<List<Task>>(response);
-            }
-            catch
+                var child = VisualTreeHelper.GetChild((DependencyObject)FindName("MainContent"), i);
+            }*/
+
+            int x = 110;
+            var tasks = api.GetTasks();
+            for (int i = 0; i < tasks.Count; i++)
             {
-                tasks = new List<Task>();
-                return;
-            }
-            
-            foreach (var task in tasks)
-            {
-                string value = Request(string.Format("http://172.16.80.2/api/assignment/{0}", task.TaskID));
-                try
+                var task = tasks[i];
+                var button = new Button
                 {
-                    task.assignments = JsonConvert.DeserializeObject<List<User>>(value);
-                }
-                catch
-                {
-                    task.assignments = new List<User>();
-                }
+                    Content = task.Title,
+                    Margin = new Thickness(10, x * i, 0, 0),
+                    Height = 50,
+                    Width = 200,
+                    Tag = task.TaskID,
+                };
+
+                button.Tapped += Button_Tapped;
+                button.Holding += Button_Holding;
+
+                MainContent.Children.Add(button);
             }
         }
 
-        private string Request(string uri)
+        private void Button_Holding(object sender, HoldingRoutedEventArgs e)
         {
-            return Request(uri, HttpMethod.Get);
+            var button = (Button)sender;
+            var taskID = (int)button.Tag;
         }
 
-        private string Request(string uri, HttpMethod method)
+        private void Button_Tapped(object sender, TappedRoutedEventArgs e)
         {
-            HttpRequestMessage request = new HttpRequestMessage
-            {
-                Method = method,
-                RequestUri = new Uri(uri)
-            };
-
-            HttpResponseMessage response = client.SendAsync(request).Result;
-            if (response.IsSuccessStatusCode)
-            {
-                return response.Content.ReadAsStringAsync().Result;
-            }
-
-            return null;
-        }
-
-        private async void Button_Holding(object sender, HoldingRoutedEventArgs e)
-        {
-            await new MessageDialog("Hej", "Hej2").ShowAsync();
-        }
-
-        public class Task
-        {
-            public int TaskID;
-            public DateTime BeginDateTime;
-            public DateTime DeadlineDateTime;
-            public string Title;
-            public string Requirements;
-            public List<User> assignments;
-        }
-
-        public class User
-        {
-            public int UserID;
+            var button = (Button)sender;
+            var taskID = (int)button.Tag;
+            Frame.Navigate(typeof(DetailsPage), taskID);
         }
     }
 }

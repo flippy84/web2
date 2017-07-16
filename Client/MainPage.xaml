@@ -5,12 +5,10 @@
     xmlns:local="using:Client"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    mc:Ignorable="d">
+    mc:Ignorable="d" Loaded="Page_Loaded">
     <Grid>
         <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
-            <Grid x:Name="Content" Width="800" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-                <Button Content="Button" HorizontalAlignment="Left" Margin="88,314,0,0" VerticalAlignment="Top" Height="140" Width="530" Holding="Button_Holding"/>
-            </Grid>
+            <Grid x:Name="MainContent" Width="800" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"/>
         </ScrollViewer>
     </Grid>
 </Page>
