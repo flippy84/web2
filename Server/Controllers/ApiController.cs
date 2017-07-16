@@ -105,14 +105,14 @@ namespace Server.Controllers
             {
                 if (api.GetUser(userID.Value) != null)
                 {
-                    return Json(api.GetUser(userID.Value));
+                    return Json(api.GetUser(userID.Value), JsonRequestBehavior.AllowGet);
                 }
             }
             else
             {
                 if (api.GetUsers() != null)
                 {
-                    return Json(api.GetUsers());
+                    return Json(api.GetUsers(), JsonRequestBehavior.AllowGet);
                 }
             }
 
