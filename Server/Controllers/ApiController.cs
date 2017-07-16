@@ -93,6 +93,33 @@ namespace Server.Controllers
         }
 
         /*
+         * User actions
+         */
+
+        [HttpGet]
+        [ActionName("User")]
+        public JsonResult GetUser(int? userID)
+        {
+            var api = new ApiModel();
+            if (userID.HasValue)
+            {
+                if (api.GetUser(userID.Value) != null)
+                {
+                    return Json(api.GetUser(userID.Value));
+                }
+            }
+            else
+            {
+                if (api.GetUsers() != null)
+                {
+                    return Json(api.GetUsers());
+                }
+            }
+
+            return JsonError("Invalid request");
+        }
+
+        /*
          * Helper methods for JSON responses
          */
 

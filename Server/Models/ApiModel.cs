@@ -95,5 +95,28 @@ namespace Server.Models
 
             return true;
         }
+
+        public User[] GetUsers()
+        {
+            var db = new DatabaseModel();
+            var users = db.Users
+                .Select(x => x);
+
+            if (users.Count() > 0)
+                return users.ToArray();
+
+            return null;
+        }
+
+        public User GetUser(int userID)
+        {
+            var db = new DatabaseModel();
+            var user = db.Users
+                .Where(x => x.UserID == userID)
+                .Select(x => x)
+                .SingleOrDefault();
+
+            return user;
+        }
     }
 }
