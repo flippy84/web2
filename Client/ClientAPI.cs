@@ -21,6 +21,32 @@ namespace Client
             HttpHost = string.Format("http://{0}", host);
         }
 
+        public List<User> GetAssignments(int taskID)
+        {
+            List<User> assignments;
+            string value = Request(string.Format("{0}/api/assignment/{1}", HttpHost, taskID));
+            try
+            {
+                assignments = JsonConvert.DeserializeObject<List<User>>(value);
+            }
+            catch
+            {
+                assignments = new List<User>();
+            }
+
+            return assignments;
+        }
+
+        public void CreateAssignment(int taskID, int userID)
+        {
+            Request(string.Format("{0}/api/assignment/{1}/{2}", HttpHost, taskID, userID), HttpMethod.Post);
+        }
+
+        public void DeleteAssignment(int taskID, int userID)
+        {
+            Request(string.Format("{0}/api/assignment/{1}/{2}", HttpHost, taskID, userID), HttpMethod.Delete);
+        }
+
         public List<Task> GetTasks()
         {
             string response = Request(string.Format("{0}/api/task", HttpHost));
