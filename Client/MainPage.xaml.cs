@@ -23,7 +23,7 @@ namespace Client
     public sealed partial class MainPage : Page
     {
         ClientAPI api = new ClientAPI("172.16.80.2");
-        User currentUser;
+        User CurrentUser;
 
         public MainPage()
         {
@@ -32,7 +32,7 @@ namespace Client
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            currentUser = (Application.Current as App).CurrentUser;
+            CurrentUser = (Application.Current as App).CurrentUser;
             base.OnNavigatedTo(e);
         }
 
@@ -63,6 +63,40 @@ namespace Client
         {
             var button = (Button)sender;
             var taskID = (int)button.Tag;
+
+            var menyflyout = new MenuFlyout();
+
+            var claim = new MenuFlyoutItem
+            {
+                Text = "Claim"
+            };
+            claim.Tapped += Claim_Tapped;
+            claim.Tag = button.Tag;
+
+            var disclaim = new MenuFlyoutItem
+            {
+                Text = "Disclaim"
+            };
+            disclaim.Tapped += Disclaim_Tapped;
+            disclaim.Tag = button.Tag;
+
+            menyflyout.Items.Add(claim);
+            menyflyout.Items.Add(disclaim);
+            menyflyout.ShowAt(button);
+        }
+
+        private void Claim_Tapped(object sender, TappedRoutedEventArgs e)
+        {
+            var api = new ClientAPI("172.16.80.2");
+            var taskID = (int)((MenuFlyoutItem)sender).Tag;
+            api.CreateAssignment(taskID, CurrentUser.UserID);
+        }
+
+        private void Disclaim_Tapped(object sender, TappedRoutedEventArgs e)
+        {
+            var api = new ClientAPI("172.16.80.2");
+            var taskID = (int)((MenuFlyoutItem)sender).Tag;
+            api.DeleteAssignment(taskID, CurrentUser.UserID);
         }
 
         private void Button_Tapped(object sender, TappedRoutedEventArgs e)
