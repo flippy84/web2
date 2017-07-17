@@ -72,7 +72,7 @@ namespace Server.Controllers
         [ActionName("Assignment")]
         public JsonResult CreateAssignment(int? taskID, int? userID)
         {
-            if (taskID != null && userID != null && new ApiModel().CreateAssignment(taskID.Value, userID.Value))
+            if (taskID.HasValue && userID.HasValue && new ApiModel().CreateAssignment(taskID.Value, userID.Value))
             {
                 return JsonSuccess("Assignment created successfully");
             }
@@ -84,7 +84,7 @@ namespace Server.Controllers
         [ActionName("Assignment")]
         public JsonResult DeleteAssignment(int? taskID, int? userID)
         {
-            if(taskID != null && userID != null)
+            if(taskID.HasValue && userID.HasValue)
             {
                 return Json(new ApiModel().DeleteAssignment(taskID.Value, userID.Value));
             }
