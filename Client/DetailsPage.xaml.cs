@@ -43,7 +43,7 @@ namespace Client
                 foreach(var assignment in task.assignments)
                 {
                     var user = api.GetUser(assignment.UserID);
-                    Assignments.Text += user + "\n";
+                    Assignments.Text += user + Environment.NewLine;
                 }
             }
             base.OnNavigatedTo(e);
