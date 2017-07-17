@@ -23,21 +23,21 @@ namespace Client
     public sealed partial class MainPage : Page
     {
         ClientAPI api = new ClientAPI("172.16.80.2");
+        User currentUser;
 
         public MainPage()
         {
             this.InitializeComponent();
         }
 
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            currentUser = (Application.Current as App).CurrentUser;
+            base.OnNavigatedTo(e);
+        }
+
         private void Page_Loaded(object sender, RoutedEventArgs e)
         {
-            /*var hej = VisualTreeHelper.GetChildrenCount((DependencyObject)FindName("MainContent"));
-
-            for (int i = 0; i < VisualTreeHelper.GetChildrenCount((DependencyObject)FindName("MainContent")); i++)
-            {
-                var child = VisualTreeHelper.GetChild((DependencyObject)FindName("MainContent"), i);
-            }*/
-
             int x = 110;
             var tasks = api.GetTasks();
             for (int i = 0; i < tasks.Count; i++)

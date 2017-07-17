@@ -22,6 +22,9 @@ namespace Client
     /// </summary>
     public sealed partial class DetailsPage : Page
     {
+        User CurrentUser;
+        int TaskID;
+
         public DetailsPage()
         {
             this.InitializeComponent();
@@ -29,24 +32,52 @@ namespace Client
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            if(e.Parameter is int)
+            CurrentUser = (Application.Current as App).CurrentUser;
+            TaskID = (int)e.Parameter;
+
+            var api = new ClientAPI("172.16.80.2");
+            var task = api.GetTask(TaskID);
+
+            Title.Text = task.Title;
+            Requirements.Text = task.Requirements;
+            Begin.Text = task.BeginDateTime.ToString();
+            Deadline.Text = task.DeadlineDateTime.ToString();
+
+            Assignments.Text = "";
+            foreach (var assignment in task.assignments)
             {
-                var api = new ClientAPI("172.16.80.2");
-                var task = api.GetTask((int)e.Parameter);
-
-                Title.Text = task.Title;
-                Requirements.Text = task.Requirements;
-                Begin.Text = task.BeginDateTime.ToString();
-                Deadline.Text = task.DeadlineDateTime.ToString();
-
-                Assignments.Text = "";
-                foreach(var assignment in task.assignments)
-                {
-                    var user = api.GetUser(assignment.UserID);
-                    Assignments.Text += user + Environment.NewLine;
-                }
+                var user = api.GetUser(assignment.UserID);
+                Assignments.Text += user + Environment.NewLine;
             }
+
             base.OnNavigatedTo(e);
+        }
+
+        private void UpdateAssignments()
+        {
+            var api = new ClientAPI("172.16.80.2");
+            var assignments = api.GetAssignments(TaskID);
+
+            Assignments.Text = "";
+            foreach (var assignment in assignments)
+            {
+                var user = api.GetUser(assignment.UserID);
+                Assignments.Text += user + Environment.NewLine;
+            }
+        }
+
+        private void Claim_Tapped(object sender, TappedRoutedEventArgs e)
+        {
+            var api = new ClientAPI("172.16.80.2");
+            api.CreateAssignment(TaskID, CurrentUser.UserID);
+            UpdateAssignments();
+        }
+
+        private void Disclaim_Tapped(object sender, TappedRoutedEventArgs e)
+        {
+            var api = new ClientAPI("172.16.80.2");
+            api.DeleteAssignment(TaskID, CurrentUser.UserID);
+            UpdateAssignments();
         }
     }
 }

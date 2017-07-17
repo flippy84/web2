@@ -36,7 +36,8 @@ namespace Client
         private void Button_Tapped(object sender, TappedRoutedEventArgs e)
         {
             var user = (User)UserComboBox.SelectedItem;
-            this.Frame.Navigate(typeof(MainPage), user);
+            (Application.Current as App).CurrentUser = user;
+            this.Frame.Navigate(typeof(MainPage));
         }
     }
 }
