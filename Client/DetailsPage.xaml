@@ -18,8 +18,8 @@
         <TextBlock HorizontalAlignment="Left" Margin="40,330,0,0" TextWrapping="Wrap" Text="Begin" VerticalAlignment="Top"/>
         <TextBlock x:Name="Deadline" HorizontalAlignment="Left" Margin="147,365,0,0" TextWrapping="Wrap" Text="TextBlock" VerticalAlignment="Top" Height="30" Width="203"/>
         <TextBlock HorizontalAlignment="Left" Margin="40,365,0,0" TextWrapping="Wrap" Text="Deadline" VerticalAlignment="Top"/>
-        <Button Content="Claim" HorizontalAlignment="Center" Margin="-100,428,0,0" VerticalAlignment="Top"/>
-        <Button Content="Disclaim" HorizontalAlignment="Center" Margin="100,428,0,0" VerticalAlignment="Top"/>
+        <Button x:Name="Claim" Content="Claim" HorizontalAlignment="Center" Margin="-100,428,0,0" VerticalAlignment="Top" Tapped="Claim_Tapped"/>
+        <Button x:Name="Disclaim" Content="Disclaim" HorizontalAlignment="Center" Margin="100,428,0,0" VerticalAlignment="Top" Tapped="Disclaim_Tapped"/>
 
     </Grid>
 </Page>
