@@ -5,6 +5,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
+using Windows.Storage;
 
 namespace Client
 {
@@ -40,11 +41,92 @@ namespace Client
         public void CreateAssignment(int taskID, int userID)
         {
             Request(string.Format("{0}/api/assignment/{1}/{2}", HttpHost, taskID, userID), HttpMethod.Post);
+            CreateLocalAssignment(taskID);
         }
 
         public void DeleteAssignment(int taskID, int userID)
         {
             Request(string.Format("{0}/api/assignment/{1}/{2}", HttpHost, taskID, userID), HttpMethod.Delete);
+            DeleteLocalAssignment(taskID);
+        }
+
+        private void CreateLocalAssignment(int taskID)
+        {
+            var localFolder = ApplicationData.Current.LocalFolder;
+            StorageFile file;
+            string contents = "";
+            List<Task> tasks;
+
+            try
+            {
+                file = localFolder.GetFileAsync("assignment.txt").AsTask().GetAwaiter().GetResult();
+                contents = FileIO.ReadTextAsync(file).AsTask().GetAwaiter().GetResult();
+            }
+            catch
+            {
+                file = localFolder.CreateFileAsync("assignment.txt").AsTask().GetAwaiter().GetResult();
+            }
+
+            try
+            {
+                tasks = JsonConvert.DeserializeObject<List<Task>>(contents);
+            }
+            catch
+            {
+                tasks = new List<Task>();
+            }
+
+            var task = GetTask(taskID);
+            if (task != null && tasks.Find(x => x.TaskID == task.TaskID) == null)
+            {
+                tasks.Add(task);
+            }
+            else
+            {
+                return;
+            }
+
+            try
+            {
+                FileIO.WriteTextAsync(file, JsonConvert.SerializeObject(tasks)).Close();
+            }
+            catch
+            {
+                return;
+            }
+        }
+
+        private void DeleteLocalAssignment(int taskID)
+        {
+            var localFolder = ApplicationData.Current.LocalFolder;
+            StorageFile file;
+            string contents = "";
+            List<Task> tasks;
+
+            try
+            {
+                file = localFolder.GetFileAsync("assignment.txt").AsTask().GetAwaiter().GetResult();
+                contents = FileIO.ReadTextAsync(file).AsTask().GetAwaiter().GetResult();
+                tasks = JsonConvert.DeserializeObject<List<Task>>(contents);
+            }
+            catch
+            {
+                return;
+            }
+
+            var index = tasks.FindIndex(x => x.TaskID == taskID);
+            if (index == -1)
+                return;
+            tasks.RemoveAt(index);
+
+            try
+            {
+                FileIO.WriteTextAsync(file, JsonConvert.SerializeObject(tasks)).Close();
+            }
+            catch
+            {
+                return;
+            }
         }
 
         public List<Task> GetTasks()
