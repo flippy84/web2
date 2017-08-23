@@ -23,7 +23,7 @@ namespace Client
 {
     public sealed partial class MainPage : Page
     {
-        ClientAPI api = new ClientAPI("172.16.80.2");
+        ClientAPI api = new ClientAPI(Settings.Host);
         User CurrentUser;
 
         public MainPage()
@@ -107,7 +107,7 @@ namespace Client
 
         private void Claim_Tapped(object sender, TappedRoutedEventArgs e)
         {
-            var api = new ClientAPI("172.16.80.2");
+            var api = new ClientAPI(Settings.Host);
             var taskID = (int)((MenuFlyoutItem)sender).Tag;
             api.CreateAssignment(taskID, CurrentUser.UserID);
 
@@ -125,7 +125,7 @@ namespace Client
 
         private void Disclaim_Tapped(object sender, TappedRoutedEventArgs e)
         {
-            var api = new ClientAPI("172.16.80.2");
+            var api = new ClientAPI(Settings.Host);
             var taskID = (int)((MenuFlyoutItem)sender).Tag;
             api.DeleteAssignment(taskID, CurrentUser.UserID);
 

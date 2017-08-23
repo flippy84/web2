@@ -35,7 +35,7 @@ namespace Client
             CurrentUser = (Application.Current as App).CurrentUser;
             TaskID = (int)e.Parameter;
 
-            var api = new ClientAPI("172.16.80.2");
+            var api = new ClientAPI(Settings.Host);
             var task = api.GetTask(TaskID);
 
             Title.Text = task.Title;
@@ -55,7 +55,7 @@ namespace Client
 
         private void UpdateAssignments()
         {
-            var api = new ClientAPI("172.16.80.2");
+            var api = new ClientAPI(Settings.Host);
             var assignments = api.GetAssignments(TaskID);
 
             Assignments.Text = "";
@@ -68,14 +68,14 @@ namespace Client
 
         private void Claim_Tapped(object sender, TappedRoutedEventArgs e)
         {
-            var api = new ClientAPI("172.16.80.2");
+            var api = new ClientAPI(Settings.Host);
             api.CreateAssignment(TaskID, CurrentUser.UserID);
             UpdateAssignments();
         }
 
         private void Disclaim_Tapped(object sender, TappedRoutedEventArgs e)
         {
-            var api = new ClientAPI("172.16.80.2");
+            var api = new ClientAPI(Settings.Host);
             api.DeleteAssignment(TaskID, CurrentUser.UserID);
             UpdateAssignments();
         }

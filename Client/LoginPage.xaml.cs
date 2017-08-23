@@ -26,7 +26,7 @@ namespace Client
         {
             this.InitializeComponent();
 
-            var users = new ClientAPI("172.16.80.2").GetUsers();
+            var users = new ClientAPI(Settings.Host).GetUsers();
             foreach(var user in users)
             {
                 UserComboBox.Items.Add(user);
